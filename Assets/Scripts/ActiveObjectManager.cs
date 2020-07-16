@@ -29,7 +29,8 @@ public class ActiveObjectManager : MonoBehaviour
     [SerializeField]
     private GameObject _activeGameObject;
 
-    public GameObject interactionIndicator;
+    [SerializeField]
+    private GameObject interactionIndicator;
 
 
     void Update()
@@ -49,7 +50,8 @@ public class ActiveObjectManager : MonoBehaviour
     {
         try
         {
-            _activeGameObject = GameObject.FindGameObjectsWithTag("ActiveObject")[0];
+            GameObject[] activeGameObjects = GameObject.FindGameObjectsWithTag("ActiveObject");
+            _activeGameObject = activeGameObjects[activeGameObjects.Length - 1];
         }
         catch
         {
@@ -88,7 +90,7 @@ public class ActiveObjectManager : MonoBehaviour
         interactionIndicator.GetComponent<TMPro.TextMeshProUGUI>().text = indicator;
     }
 
-    void DetermineInteraction(int layer)
+    public void DetermineInteraction(int layer)
     {
         switch(layer)
         {
@@ -144,17 +146,20 @@ public class ActiveObjectManager : MonoBehaviour
             newPosition =  position;
     }
 
+
     //Function for moving item on the floor (X-Z plane) using 2DAxis input
     void DoObjectMove(GameObject obj, Vector2 position)
     {
         obj.transform.Translate(new Vector3(position.x, 0, position.y) * Time.deltaTime * speed);
     }
 
+
     //To rotate the object around its own Y-Axis(Objects on the floor)
     void DoObjectRotate(GameObject obj, Vector2 position)
     {
         obj.transform.RotateAround(obj.transform.position, new Vector3(0, position.x, 0), 45 * Time.deltaTime);
     }
+
 
     void DoObjectDrag(GameObject obj)
     {
