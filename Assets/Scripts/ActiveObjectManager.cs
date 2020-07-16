@@ -153,7 +153,7 @@ public class ActiveObjectManager : MonoBehaviour
     //To rotate the object around its own Y-Axis(Objects on the floor)
     void DoObjectRotate(GameObject obj, Vector2 position)
     {
-        obj.transform.RotateAround(obj.transform.localPosition, new Vector3(0, position.x, 0), 45 * Time.deltaTime);
+        obj.transform.RotateAround(obj.transform.position, new Vector3(0, position.x, 0), 45 * Time.deltaTime);
     }
 
     void DoObjectDrag(GameObject obj)

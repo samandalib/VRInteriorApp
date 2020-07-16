@@ -8,7 +8,7 @@ public class ActiveObjectDependancies : MonoBehaviour
     public GameObject ActiveObjectManager;
     public GameObject Prefab;
 
-    //GameObject PrefabCopy;
+    GameObject PrefabCopy;
     //Transform Target = GameObject.Find("TargetObject").transform;
 
     // Start is called before the first frame update
@@ -16,7 +16,7 @@ public class ActiveObjectDependancies : MonoBehaviour
     {
         //Prefab.AddComponent<BoxCollider>();
         //PrefabCopy = Instantiate(Prefab);
-        // Prefab.transform.SetParent(Target);
+        //PrefabCopy.transform.SetParent(transform);
         //PrefabCopy.transform.SetAsLastSibling();
 
     }
