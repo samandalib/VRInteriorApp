@@ -29,6 +29,8 @@ public class ActiveObjectManager : MonoBehaviour
     [SerializeField]
     private GameObject _activeGameObject;
 
+    public GameObject interactionIndicator;
+
 
     void Update()
     {
@@ -39,6 +41,7 @@ public class ActiveObjectManager : MonoBehaviour
         ///or find a way other than working with layers, like calling a function in this script when the button is pressed
         
         SetInteractionLayer();
+
     }
 
     //check and find if any GameObject is active for interaction in the scene
@@ -59,6 +62,9 @@ public class ActiveObjectManager : MonoBehaviour
     {
         if (activeObjectManager.layer == 0)
         {
+            
+            DetermineInteraction(0);
+
             //The 2DAxis on the controller will work for locomotion
             Rig.GetComponent<Locomotion2DAxis>().enabled = true;
 
@@ -76,36 +82,49 @@ public class ActiveObjectManager : MonoBehaviour
         }
     }
 
+    void UpdateInteractioIndicator(string indicator)
+    {
+        interactionIndicator = GameObject.Find("interactionIndicator");
+        interactionIndicator.GetComponent<TMPro.TextMeshProUGUI>().text = indicator;
+    }
+
     void DetermineInteraction(int layer)
     {
         switch(layer)
         {
             case 0://Default
                 Debug.Log("There is no active object to interact with");
+                UpdateInteractioIndicator("");
                 break;
+
             case 11://rotate
+                UpdateInteractioIndicator("Rotate");
                 Debug.Log("Rotation Is selected !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 _activeGameObject.GetComponent<SetRotationFix>().enabled = false;
                 CheckForInput();
                 DoObjectRotate(_activeGameObject, newPosition);
                 break;
+
             case 12://move
                 //Debug.Log("MOVE Is selected ");
-                
+                UpdateInteractioIndicator("Move");
                 //Rig.GetComponent<Locomotion2DAxis>().controllers[0] = null;
                 CheckForInput();
                 DoObjectMove(_activeGameObject, newPosition);
                 break;
 
             case 13://scale
+                UpdateInteractioIndicator("Scale");
                 Debug.Log("SCALE Is selected !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 break;
 
             case 14://material
+                UpdateInteractioIndicator("Material");
                 Debug.Log("MATERIAL Is selected !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 break;
 
             case 15://Drag
+                UpdateInteractioIndicator("Drag");
                 DoObjectDrag(_activeGameObject);
                 break;
         }
