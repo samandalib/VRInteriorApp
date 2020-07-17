@@ -6,9 +6,10 @@ public class ActiveObjectDependancies : MonoBehaviour
 {
     public GameObject UICanvas;
     public GameObject ActiveObjectManager;
-    public GameObject Prefab;
+    public GameObject TargetObject;
+    //public GameObject Prefab;
 
-    GameObject PrefabCopy;
+    //GameObject PrefabCopy;
     //Transform Target = GameObject.Find("TargetObject").transform;
 
     // Start is called before the first frame update
@@ -28,7 +29,8 @@ public class ActiveObjectDependancies : MonoBehaviour
 
     public void ActivateCanvas()
     {
-        UICanvas.SetActive(true);
+        if(TargetObject.tag == "ActiveObject")
+            UICanvas.SetActive(true);
     }
 
     public void DisActiveCanvas()

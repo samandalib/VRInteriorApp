@@ -8,7 +8,8 @@ public class SetTransformToZero : MonoBehaviour
     
     void Update()
     {
-        Vector3 parentPosition = transform.parent.position;
-        transform.localPosition = new Vector3(parentPosition.x, 1.3f, parentPosition.z );
+
+        transform.localPosition = new Vector3(0, 1.3f, 0);
+
     }
 }

@@ -32,6 +32,8 @@ public class ActiveObjectManager : MonoBehaviour
     [SerializeField]
     private GameObject interactionIndicator;
 
+    //get all the active objects in the scene into an Array
+    GameObject[] activeGameObjects;
 
     void Update()
     {
@@ -42,16 +44,33 @@ public class ActiveObjectManager : MonoBehaviour
         ///or find a way other than working with layers, like calling a function in this script when the button is pressed
         
         SetInteractionLayer();
-
+        
     }
 
+    //Untag all active objects if no object is selected
+    public void UntaggActiveObjects()
+    {
+        activeGameObjects = GameObject.FindGameObjectsWithTag("ActiveObject");
+        for (int i = 0; i < activeGameObjects.Length; i++)
+        {
+            activeGameObjects[i].tag = "Untagged";
+        }
+    }
     //check and find if any GameObject is active for interaction in the scene
     void FindActiveObject()
     {
         try
         {
-            GameObject[] activeGameObjects = GameObject.FindGameObjectsWithTag("ActiveObject");
+            activeGameObjects = GameObject.FindGameObjectsWithTag("ActiveObject");
             _activeGameObject = activeGameObjects[activeGameObjects.Length - 1];
+            if (activeGameObjects.Length > 1)
+            {
+                for (int i = 0; i < (activeGameObjects.Length - 1); i++)
+                {
+                    activeGameObjects[i].tag = "Untagged";
+                }
+            }
+
         }
         catch
         {
@@ -73,6 +92,7 @@ public class ActiveObjectManager : MonoBehaviour
             //Enable the set rotation script to maintain the rotation of objects 
             //This might be unnecessary in the future
             _activeGameObject.GetComponent<SetRotationFix>().enabled = false;
+
         }
         else
         {
