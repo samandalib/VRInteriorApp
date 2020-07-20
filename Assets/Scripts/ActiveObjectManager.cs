@@ -62,6 +62,8 @@ public class ActiveObjectManager : MonoBehaviour
         try
         {
             activeGameObjects = GameObject.FindGameObjectsWithTag("ActiveObject");
+
+            //Only keep the last selected object as the ActiveObject
             _activeGameObject = activeGameObjects[activeGameObjects.Length - 1];
             if (activeGameObjects.Length > 1)
             {
@@ -81,27 +83,36 @@ public class ActiveObjectManager : MonoBehaviour
     //Set the Interaction Layer based on the UI button selected
     void SetInteractionLayer()
     {
-        if (activeObjectManager.layer == 0)
+        //If ActiveObjectManager gameobject is active in the scene, try to get the layer int
+        try
         {
-            
-            DetermineInteraction(0);
+            if (activeObjectManager.layer == 0)
+            {
 
-            //The 2DAxis on the controller will work for locomotion
-            Rig.GetComponent<Locomotion2DAxis>().enabled = true;
+                DetermineInteraction(0);
 
-            //Enable the set rotation script to maintain the rotation of objects 
-            //This might be unnecessary in the future
-            _activeGameObject.GetComponent<SetRotationFix>().enabled = false;
+                //The 2DAxis on the controller will work for locomotion
+                Rig.GetComponent<Locomotion2DAxis>().enabled = true;
 
+                //Enable the set rotation script to maintain the rotation of objects 
+                //This might be unnecessary in the future
+                _activeGameObject.GetComponent<SetRotationFix>().enabled = false;
+
+            }
+            else
+            {
+                _interactionLayer = activeObjectManager.layer;
+
+                //locomotion will be disabled the 2DAxis on selected controller will work for object interaction
+                Rig.GetComponent<Locomotion2DAxis>().enabled = false;
+                DetermineInteraction(_interactionLayer);
+            }
         }
-        else
+        catch
         {
-            _interactionLayer = activeObjectManager.layer;
-
-            //locomotion will be disabled the 2DAxis on selected controller will work for object interaction
-            Rig.GetComponent<Locomotion2DAxis>().enabled = false;
-            DetermineInteraction(_interactionLayer);
+            Debug.LogError("Error from Set intertaction layer catched");
         }
+
     }
 
     void UpdateInteractioIndicator(string indicator)

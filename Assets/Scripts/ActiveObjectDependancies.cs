@@ -2,44 +2,46 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//This file works as a facade for setting up the interactive object to call Canvase and the functions of the ActiveObjectManager
 public class ActiveObjectDependancies : MonoBehaviour
 {
+    
     public GameObject UICanvas;
     public GameObject ActiveObjectManager;
     public GameObject TargetObject;
-    //public GameObject Prefab;
+    public GameObject Prefab;
 
-    //GameObject PrefabCopy;
-    //Transform Target = GameObject.Find("TargetObject").transform;
+    private Color _baseColor;
 
-    // Start is called before the first frame update
-    private void Start()
+    private void Awake()
     {
-        //Prefab.AddComponent<BoxCollider>();
-        //PrefabCopy = Instantiate(Prefab);
-        //PrefabCopy.transform.SetParent(transform);
-        //PrefabCopy.transform.SetAsLastSibling();
-
+        _baseColor = Prefab.GetComponent<MeshRenderer>().material.color;
     }
     
-    private void Update()
-    {
-        
-    }
 
+    //If there is any object active, activate the Canvas on Hover Enter
     public void ActivateCanvas()
     {
         if(TargetObject.tag == "ActiveObject")
             UICanvas.SetActive(true);
     }
 
+    //Disactive UICanvas when Hover Exits
     public void DisActiveCanvas()
     {
         UICanvas.SetActive(false);
     }
 
-    public void ActiveObjectManagerToLayerZero()
+    //Set to the original color of the prefab when hover exits the object
+    public void SetToBaseColor()
     {
-        ActiveObjectManager.layer = 0;
+        Prefab.GetComponent<MeshRenderer>().material.color = _baseColor;
+    }
+
+    //Set the prefab color to yellow when hover enters the object
+    public void SetToHoverColor()
+    {
+        Prefab.GetComponent<MeshRenderer>().material.color = Color.yellow;
     }
 }
