@@ -6,6 +6,7 @@ TagManager:
   tags:
   - ActiveObjectManager
   - ActiveObject
+  - transformer
   layers:
   - Default
   - TransparentFX

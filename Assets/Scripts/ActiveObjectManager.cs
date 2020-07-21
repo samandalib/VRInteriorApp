@@ -7,7 +7,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class ActiveObjectManager : MonoBehaviour
 {
     // to get the layer name of this object
-    public GameObject activeObjectManager;
+    //public GameObject activeObjectManager;
 
     //speed for object movement/rotation/scale
     public int speed = 2;
@@ -39,10 +39,6 @@ public class ActiveObjectManager : MonoBehaviour
     {
         FindActiveObject();
 
-        ////////////TO DO: if there is an active gameobject set the interaction layer
-        ///else, set the activeObjectManager layer to 0 and 
-        ///or find a way other than working with layers, like calling a function in this script when the button is pressed
-        
         SetInteractionLayer();
         
     }
@@ -86,7 +82,7 @@ public class ActiveObjectManager : MonoBehaviour
         //If ActiveObjectManager gameobject is active in the scene, try to get the layer int
         try
         {
-            if (activeObjectManager.layer == 0)
+            if (gameObject.layer == 0)
             {
 
                 DetermineInteraction(0);
@@ -101,7 +97,7 @@ public class ActiveObjectManager : MonoBehaviour
             }
             else
             {
-                _interactionLayer = activeObjectManager.layer;
+                _interactionLayer = gameObject.layer;
 
                 //locomotion will be disabled the 2DAxis on selected controller will work for object interaction
                 Rig.GetComponent<Locomotion2DAxis>().enabled = false;
@@ -115,18 +111,21 @@ public class ActiveObjectManager : MonoBehaviour
 
     }
 
+
+    //To show what interaction is currently active in the scene
     void UpdateInteractioIndicator(string indicator)
     {
         interactionIndicator = GameObject.Find("interactionIndicator");
         interactionIndicator.GetComponent<TMPro.TextMeshProUGUI>().text = indicator;
     }
 
+    //To determine the interaction type based on the layer number
     public void DetermineInteraction(int layer)
     {
         switch(layer)
         {
             case 0://Default
-                Debug.Log("There is no active object to interact with");
+                Debug.Log("No interaction is selected despite having an active object");
                 UpdateInteractioIndicator("");
                 break;
 
