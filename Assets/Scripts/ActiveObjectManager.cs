@@ -35,10 +35,15 @@ public class ActiveObjectManager : MonoBehaviour
     //get all the active objects in the scene into an Array
     GameObject[] activeGameObjects;
 
+    //get active object identity
+    private bool floorObject;
+    private bool wallObject;
+    private bool ceilingObject;
+
     void Update()
     {
         FindActiveObject();
-
+        
         SetInteractionLayer();
         
     }
@@ -69,11 +74,21 @@ public class ActiveObjectManager : MonoBehaviour
                 }
             }
 
+            //Check to see if the active object is on wall/floor/ceiling
+            FindActiveObjectConstraints();
+
         }
         catch
         {
             _activeGameObject = null;    
         }      
+    }
+
+    void FindActiveObjectConstraints()
+    {
+        floorObject = _activeGameObject.transform.GetComponentInParent<ObjectAffordances>().floorObject;
+        wallObject = _activeGameObject.transform.GetComponentInParent<ObjectAffordances>().wallObject;
+        ceilingObject = _activeGameObject.transform.GetComponentInParent<ObjectAffordances>().ceilingObject;
     }
 
     //Set the Interaction Layer based on the UI button selected
@@ -180,14 +195,63 @@ public class ActiveObjectManager : MonoBehaviour
     //Function for moving item on the floor (X-Z plane) using 2DAxis input
     void DoObjectMove(GameObject obj, Vector2 position)
     {
-        obj.transform.Translate(new Vector3(position.x, 0, position.y) * Time.deltaTime * speed);
+        if (floorObject || ceilingObject)
+        {
+            obj.transform.Translate(new Vector3(position.x, 0, position.y) * Time.deltaTime * speed);
+        }
+        else if (wallObject)
+        {
+            //If the wall is On the ZY plane
+            if (_activeGameObject.GetComponent<SetXPositionFix>() != null)
+            {
+                Debug.Log("It is a ZY wall!!!!!!!!");
+                obj.transform.Translate(new Vector3(0, position.y, position.x) * Time.deltaTime * speed);
+
+            }
+            //If the wall is On the XY plane
+            else
+            {
+                
+                Debug.Log("It is a XY wall!!!!!!!!");
+                obj.transform.Translate(new Vector3(position.x, position.y, 0) * Time.deltaTime * speed);
+            }
+
+            
+        }
+        
     }
 
 
     //To rotate the object around its own Y-Axis(Objects on the floor)
     void DoObjectRotate(GameObject obj, Vector2 position)
     {
-        obj.transform.RotateAround(obj.transform.position, new Vector3(0, position.x, 0), 45 * Time.deltaTime);
+        //If the active object is a floor or ceiling object, rotate it around Y axis
+        if (floorObject || ceilingObject)
+        {
+            obj.transform.RotateAround(obj.transform.position, new Vector3(0, position.x, 0), 45 * Time.deltaTime);
+        }
+
+        //If the active object is a wall object check to see what kind of wall it is located on 
+        else if (wallObject)
+        {
+            //If the wall is On the ZY plane
+            if (_activeGameObject.GetComponent<SetXPositionFix>() != null)
+            {
+                Debug.Log("It is a ZY wall!!!!!!!!");
+                obj.transform.RotateAround(obj.transform.position, new Vector3(position.x, 0 , 0), 45 * Time.deltaTime);
+            }
+
+            else
+            {
+                //If the wall is on the XY plane
+                Debug.Log("It is a XY wall!!!!!!!!");
+                obj.transform.RotateAround(obj.transform.position, new Vector3(0, 0, position.x), 45 * Time.deltaTime);
+            }
+            
+            
+                
+        }
+            
     }
 
 
