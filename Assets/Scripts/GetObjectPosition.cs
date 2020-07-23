@@ -14,6 +14,6 @@ public class GetObjectPosition : MonoBehaviour
     void Update()
     {
         Vector3 objectPos = transform.position;
-        Debug.Log("Object position is now: " + objectPos);
+        //Debug.Log("Object position is now: " + objectPos);
     }
 }

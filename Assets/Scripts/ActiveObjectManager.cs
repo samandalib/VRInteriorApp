@@ -48,6 +48,12 @@ public class ActiveObjectManager : MonoBehaviour
     private bool wallObject;
     private bool ceilingObject;
 
+    //look direction variables
+    private bool lookForward;
+    private bool lookRight;
+    private bool lookLeft;
+    private bool lookBack;
+
     private void Start()
     {
         _axisAdjusterScript = AxisAdjuster.GetComponent<MovementAdjuster>();
@@ -64,8 +70,11 @@ public class ActiveObjectManager : MonoBehaviour
     //Get the look direction X and Z factors
     void FindLookDirection()
     {
-        Vector3 direction = _axisAdjusterScript.lookDirection;
-        XZLookDirection = new Vector2(direction.x, direction.z);
+
+        lookForward = _axisAdjusterScript.forwardLook;
+        lookRight = _axisAdjusterScript.rightLook;
+        lookLeft = _axisAdjusterScript.leftLook;
+        lookBack = _axisAdjusterScript.backwardLook;
     }
 
     //Untag all active objects if no object is selected
@@ -217,30 +226,33 @@ public class ActiveObjectManager : MonoBehaviour
     //Function for moving item on the floor (X-Z plane) using 2DAxis input
     void DoObjectMove(GameObject obj, Vector2 position)
     {
-        float x = XZLookDirection.x;
-        float z = XZLookDirection.y;
+
 
 
         if (floorObject || ceilingObject)
         {
-            if (x > -0.5f && x < 0.5f && z >= 0.5f)//Look forward
+            
+            if(lookForward)//Look Z+
             {
-                obj.transform.Translate(new Vector3(position.x, 0, position.y) * Time.deltaTime * speed);
+                obj.transform.Translate(new Vector3(position.x, 0, position.y) * Time.deltaTime * speed, Space.World);
             }
 
-            else if (z > -0.5f && z < 0.5f && x <= -0.5f)//Look Left
+            
+            else if (lookLeft)//Look X-
             {
-                obj.transform.Translate(new Vector3(-position.y, 0, position.x) * Time.deltaTime * speed);
+                obj.transform.Translate(new Vector3(-position.y, 0, position.x) * Time.deltaTime * speed, Space.World);
             }
 
-            else if (x > -0.5f && x < 0.5f && z <= -0.5f)//Look Backward
+            
+            else if (lookBack)//Look Z-
             {
-                obj.transform.Translate(new Vector3(-position.x, 0, -position.y) * Time.deltaTime * speed);
+                obj.transform.Translate(new Vector3(-position.x, 0, -position.y) * Time.deltaTime * speed, Space.World);
             }
 
-            else if (z > -0.5f && z < 0.5f && x >= 0.5f)//Look Right
+            
+            else if (lookRight)//Look X+
             {
-                obj.transform.Translate(new Vector3(position.y, 0, -position.x) * Time.deltaTime * speed);
+                obj.transform.Translate(new Vector3(position.y, 0, -position.x) * Time.deltaTime * speed, Space.World);
             }
         }
         else if (wallObject)
@@ -249,15 +261,33 @@ public class ActiveObjectManager : MonoBehaviour
             if (_activeGameObject.GetComponent<SetXPositionFix>() != null)
             {
                 Debug.Log("It is a ZY wall!!!!!!!!");
-                obj.transform.Translate(new Vector3(0, position.y, position.x) * Time.deltaTime * speed);
+                //Check the look Direction
+                if (lookLeft)
+                {
+                    obj.transform.Translate(new Vector3(0, position.y, position.x) * Time.deltaTime * speed, Space.World);
+                }
+                else if (lookRight)
+                {
+                    obj.transform.Translate(new Vector3(0, position.y, -position.x) * Time.deltaTime * speed, Space.World);
+                }
+                
+                
                 
             }
             //If the wall is On the XY plane
             else
             {
-                
                 Debug.Log("It is a XY wall!!!!!!!!");
-                obj.transform.Translate(new Vector3(position.x, position.y, 0) * Time.deltaTime * speed);
+                //check the look Direction
+                if (lookForward)
+                {
+                    obj.transform.Translate(new Vector3(position.x, position.y, 0) * Time.deltaTime * speed, Space.World);
+                }
+                else if (lookBack)
+                {
+                    obj.transform.Translate(new Vector3(-position.x, position.y, 0) * Time.deltaTime * speed, Space.World);
+                }
+                
                 
             }
 
