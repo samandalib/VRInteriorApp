@@ -35,17 +35,37 @@ public class ActiveObjectManager : MonoBehaviour
     //get all the active objects in the scene into an Array
     GameObject[] activeGameObjects;
 
+    //Communicate with MovementAdjuster Script to get look direction
+    public GameObject AxisAdjuster;
+    private MovementAdjuster _axisAdjusterScript;
+
+    //We will only need the X and Z value of the look direction to decide about movement adjustment
+    [SerializeField]
+    Vector2 XZLookDirection;
+
     //get active object identity
     private bool floorObject;
     private bool wallObject;
     private bool ceilingObject;
 
+    private void Start()
+    {
+        _axisAdjusterScript = AxisAdjuster.GetComponent<MovementAdjuster>();
+    }
     void Update()
     {
         FindActiveObject();
         
         SetInteractionLayer();
-        
+
+        FindLookDirection();
+    }
+
+    //Get the look direction X and Z factors
+    void FindLookDirection()
+    {
+        Vector3 direction = _axisAdjusterScript.lookDirection;
+        XZLookDirection = new Vector2(direction.x, direction.z);
     }
 
     //Untag all active objects if no object is selected
@@ -57,6 +77,7 @@ public class ActiveObjectManager : MonoBehaviour
             activeGameObjects[i].tag = "Untagged";
         }
     }
+
     //check and find if any GameObject is active for interaction in the scene
     void FindActiveObject()
     {
@@ -158,6 +179,7 @@ public class ActiveObjectManager : MonoBehaviour
                 //Rig.GetComponent<Locomotion2DAxis>().controllers[0] = null;
                 CheckForInput();
                 DoObjectMove(_activeGameObject, newPosition);
+
                 break;
 
             case 13://scale
@@ -195,9 +217,31 @@ public class ActiveObjectManager : MonoBehaviour
     //Function for moving item on the floor (X-Z plane) using 2DAxis input
     void DoObjectMove(GameObject obj, Vector2 position)
     {
+        float x = XZLookDirection.x;
+        float z = XZLookDirection.y;
+
+
         if (floorObject || ceilingObject)
         {
-            obj.transform.Translate(new Vector3(position.x, 0, position.y) * Time.deltaTime * speed);
+            if (x > -0.5f && x < 0.5f && z >= 0.5f)//Look forward
+            {
+                obj.transform.Translate(new Vector3(position.x, 0, position.y) * Time.deltaTime * speed);
+            }
+
+            else if (z > -0.5f && z < 0.5f && x <= -0.5f)//Look Left
+            {
+                obj.transform.Translate(new Vector3(-position.y, 0, position.x) * Time.deltaTime * speed);
+            }
+
+            else if (x > -0.5f && x < 0.5f && z <= -0.5f)//Look Backward
+            {
+                obj.transform.Translate(new Vector3(-position.x, 0, -position.y) * Time.deltaTime * speed);
+            }
+
+            else if (z > -0.5f && z < 0.5f && x >= 0.5f)//Look Right
+            {
+                obj.transform.Translate(new Vector3(position.y, 0, -position.x) * Time.deltaTime * speed);
+            }
         }
         else if (wallObject)
         {
@@ -206,7 +250,7 @@ public class ActiveObjectManager : MonoBehaviour
             {
                 Debug.Log("It is a ZY wall!!!!!!!!");
                 obj.transform.Translate(new Vector3(0, position.y, position.x) * Time.deltaTime * speed);
-
+                
             }
             //If the wall is On the XY plane
             else
@@ -214,6 +258,7 @@ public class ActiveObjectManager : MonoBehaviour
                 
                 Debug.Log("It is a XY wall!!!!!!!!");
                 obj.transform.Translate(new Vector3(position.x, position.y, 0) * Time.deltaTime * speed);
+                
             }
 
             
