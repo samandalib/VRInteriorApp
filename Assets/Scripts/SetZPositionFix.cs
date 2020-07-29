@@ -7,6 +7,9 @@ public class SetZPositionFix : MonoBehaviour
     public GameObject Plane;
     private Vector3 PlanePos;
 
+    public bool frontWall;
+    public bool backWall;
+
     void Start()
     {
         //Need the Plane Position for the adjustment of Target position on the plane
@@ -22,12 +25,16 @@ public class SetZPositionFix : MonoBehaviour
 
         var zAdj = transform.localScale.z / 2;//Need this to adjust the position of the target
 
-        if (PlanePos.z > 0)//If the Plane is located on the right (positive X) side of the environment
+        if (PlanePos.z > 0)//If the Plane is located in front (positive Z) side of the environment
         {
+            frontWall = true;
+            backWall = false;
             transform.position = new Vector3(x , y, z - zAdj);
         }
-        else if (PlanePos.z < 0)//If the Plane is located on the left (negative X) side of the environment
+        else if (PlanePos.z < 0)//If the Plane is located on the back (negative Z) side of the environment
         {
+            frontWall = false;
+            backWall = true;
             transform.position = new Vector3(x , y, z+zAdj);
         }
     }

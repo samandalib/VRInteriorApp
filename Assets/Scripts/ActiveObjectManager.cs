@@ -43,7 +43,7 @@ public class ActiveObjectManager : MonoBehaviour
     [SerializeField]
     Vector2 XZLookDirection;
 
-    //get active object identity
+    //get active object type
     private bool floorObject;
     private bool wallObject;
     private bool ceilingObject;
@@ -255,40 +255,42 @@ public class ActiveObjectManager : MonoBehaviour
                 obj.transform.Translate(new Vector3(position.y, 0, -position.x) * Time.deltaTime * speed, Space.World);
             }
         }
+
+        //if the selected Object is a wall object
         else if (wallObject)
         {
             //If the wall is On the ZY plane
             if (_activeGameObject.GetComponent<SetXPositionFix>() != null)
             {
+                var positionScript = _activeGameObject.GetComponent<SetXPositionFix>();
+
                 Debug.Log("It is a ZY wall!!!!!!!!");
-                //Check the look Direction
-                if (lookLeft)
+                //Check the wall position
+                if (positionScript.leftWall )
                 {
                     obj.transform.Translate(new Vector3(0, position.y, position.x) * Time.deltaTime * speed, Space.World);
                 }
-                else if (lookRight)
+                else if (positionScript.rightWall)
                 {
                     obj.transform.Translate(new Vector3(0, position.y, -position.x) * Time.deltaTime * speed, Space.World);
                 }
-                
-                
-                
             }
+
             //If the wall is On the XY plane
             else
             {
+                var positionScript = _activeGameObject.GetComponent<SetZPositionFix>();
                 Debug.Log("It is a XY wall!!!!!!!!");
-                //check the look Direction
-                if (lookForward)
+                //check the wall position
+                if (positionScript.frontWall)
                 {
                     obj.transform.Translate(new Vector3(position.x, position.y, 0) * Time.deltaTime * speed, Space.World);
                 }
-                else if (lookBack)
+                else if (positionScript.backWall)
                 {
                     obj.transform.Translate(new Vector3(-position.x, position.y, 0) * Time.deltaTime * speed, Space.World);
                 }
-                
-                
+
             }
 
             
@@ -313,14 +315,35 @@ public class ActiveObjectManager : MonoBehaviour
             if (_activeGameObject.GetComponent<SetXPositionFix>() != null)
             {
                 Debug.Log("It is a ZY wall!!!!!!!!");
-                obj.transform.RotateAround(obj.transform.position, new Vector3(position.x, 0 , 0), 45 * Time.deltaTime);
+
+                var positionScript = _activeGameObject.GetComponent<SetXPositionFix>();
+                if (positionScript.rightWall)
+                {
+                    obj.transform.RotateAround(obj.transform.position, new Vector3(-position.x, 0, 0), 45 * Time.deltaTime);
+
+                }
+                else
+                {
+                    obj.transform.RotateAround(obj.transform.position, new Vector3(position.x, 0, 0), 45 * Time.deltaTime);
+                }
+
             }
 
             else
             {
                 //If the wall is on the XY plane
                 Debug.Log("It is a XY wall!!!!!!!!");
-                obj.transform.RotateAround(obj.transform.position, new Vector3(0, 0, position.x), 45 * Time.deltaTime);
+
+                var positionScript = _activeGameObject.GetComponent<SetZPositionFix>();
+                if (positionScript.frontWall)
+                {
+                    obj.transform.RotateAround(obj.transform.position, new Vector3(0, 0, -position.x), 45 * Time.deltaTime);
+                }
+                else if (positionScript.backWall)
+                {
+                    obj.transform.RotateAround(obj.transform.position, new Vector3(0, 0, position.x), 45 * Time.deltaTime);
+
+                }
             }
             
             
