@@ -23,6 +23,7 @@ public class ActiveObjectManager : MonoBehaviour
     GameObject[] activeGameObjects;
     public GameObject activeGameObject;
 
+    public GameObject interactionIndicatorCanvas;
 
     //We will only need the X and Z value of the look direction to decide about movement adjustment
     [SerializeField]

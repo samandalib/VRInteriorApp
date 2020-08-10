@@ -10,6 +10,7 @@ public class DetermineInteraction : MonoBehaviour
 
     private MoveInteraction _doMove;
     private RotateInteraction _doRotate;
+    private IndicatorCanvas _indicatorCanvas;
 
     [SerializeField]
     private int _interactionLayer;
@@ -20,7 +21,8 @@ public class DetermineInteraction : MonoBehaviour
 
     //[SerializeField]
     private GameObject interactionIndicator;
-
+    private IndicatorCanvas _interactionIndicatorCanvas;
+    private Transform interactionIndicatorText;
 
     // Start is called before the first frame update
 
@@ -28,6 +30,10 @@ public class DetermineInteraction : MonoBehaviour
     {
         _rig = transform.GetComponent<ActiveObjectManager>().Rig;
         _manager = transform.GetComponent<ActiveObjectManager>();
+        interactionIndicator = transform.GetComponent<ActiveObjectManager>().interactionIndicatorCanvas;
+
+        //get the script of the indicator canvas
+        _interactionIndicatorCanvas = interactionIndicator.GetComponent<IndicatorCanvas>();
 
     }
 
@@ -97,32 +103,16 @@ public class DetermineInteraction : MonoBehaviour
     void UpdateInteractioIndicator(string indicator)
     {
 
-        float baseFontSize = 18.0f;
-        float maxFontSize = 56.0f;
-
-        interactionIndicator = GameObject.Find("interactionIndicator");
-        interactionIndicator.GetComponent<TMPro.TextMeshProUGUI>().text = indicator;
+        interactionIndicatorText = _interactionIndicatorCanvas.transform.GetChild(0);
+        interactionIndicatorText.GetComponent<TMPro.TextMeshProUGUI>().text = indicator;
 
         Vector3 objectPosition = _activeGameObject.transform.position;
         Vector3 CameraPosition = _rig.transform.position;
 
         float deltaPosition = Vector3.Distance(objectPosition, CameraPosition);
-        float changeThreshold = 3.0f;
-        float stopChange = 12.0f;
 
-        if (deltaPosition < changeThreshold)
-        {
-            interactionIndicator.GetComponent<TMPro.TextMeshProUGUI>().fontSize = baseFontSize;
-        }
+        //Call the method from script attached to the Indicator Canvas
+        _interactionIndicatorCanvas.UpdateSize(deltaPosition);
 
-        else if (deltaPosition > stopChange)
-        {
-            interactionIndicator.GetComponent<TMPro.TextMeshProUGUI>().fontSize = maxFontSize;
-        }
-
-        else
-        {
-            interactionIndicator.GetComponent<TMPro.TextMeshProUGUI>().fontSize = baseFontSize * (deltaPosition / changeThreshold);
-        }
     }
 }

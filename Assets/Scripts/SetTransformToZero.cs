@@ -11,7 +11,7 @@ public class SetTransformToZero : MonoBehaviour
         //Find the height of the prefab in the active object
         _target = GameObject.FindGameObjectsWithTag("ActiveObject")[0];
         float _targetHeight = _target.transform.GetChild(0).localScale.y;
-        Debug.Log("Target Height is ::: " + _targetHeight);
+
 
         if (_targetHeight < 1.3f)
         {
