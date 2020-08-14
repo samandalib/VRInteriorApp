@@ -14,6 +14,7 @@ public class ActiveObjectManager : MonoBehaviour
     //need to specify the XR Rig to disable locomotion when object is selected
     public GameObject Rig;
 
+
     //The Vector2 variable out of the 2DAxis input
     public Vector2 newPosition; 
 
@@ -33,7 +34,6 @@ public class ActiveObjectManager : MonoBehaviour
     public bool floorObject;
     public bool wallObject;
     public bool ceilingObject;
-
 
     void Update()
     {

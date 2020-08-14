@@ -8,6 +8,7 @@ public class ObjectAffordances : MonoBehaviour
     public bool floorObject;
     public bool wallObject;
     public bool ceilingObject;
+    public bool lightHolderObject;
 
 
     
