@@ -7,10 +7,10 @@ using UnityEngine;
 public class ActiveObjectDependancies : MonoBehaviour
 {
     
-    public GameObject UICanvas;
     public GameObject ActiveObjectManager;
     public GameObject TargetObject;
     public GameObject Prefab;
+    public Light[] lights;
 
     private Color _baseColor;
 
@@ -20,18 +20,6 @@ public class ActiveObjectDependancies : MonoBehaviour
     }
     
 
-    //If there is any object active, activate the Canvas on Hover Enter
-    public void ActivateCanvas()
-    {
-        if(TargetObject.tag == "ActiveObject")
-            UICanvas.SetActive(true);
-    }
-
-    //Disactive UICanvas when Hover Exits
-    public void DisActiveCanvas()
-    {
-        UICanvas.SetActive(false);
-    }
 
     //Set to the original color of the prefab when hover exits the object
     public void SetToBaseColor()

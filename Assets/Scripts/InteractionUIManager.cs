@@ -8,6 +8,7 @@ public class InteractionUIManager : MonoBehaviour
     private ActiveObjectManager _script;
     private bool _lightObject;
     public GameObject lightButton;
+    public GameObject lightButtonDisabled;
 
     // Start is called before the first frame update
     void Start()
@@ -23,10 +24,12 @@ public class InteractionUIManager : MonoBehaviour
         if (_lightObject)
         {
             lightButton.SetActive(true);
+            lightButtonDisabled.SetActive(false);
         }
         else
         {
             lightButton.SetActive(false);
+            lightButtonDisabled.SetActive(true);
         }
     }
 }

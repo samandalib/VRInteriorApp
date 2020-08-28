@@ -7,17 +7,38 @@ using UnityEngine;
 /// </summary>
 public class lightManager : MonoBehaviour
 {
-    public GameObject activeGameObject;
+    public GameObject activeObjectManager;
+
+    [SerializeField]
+    private GameObject activeGameObject;
     private ActiveObjectManager _script;
-    private Light _light;
+
+    [SerializeField]
+    private Light[] _lights;
+
+    private void Update()
+    {
+        _script = activeObjectManager.GetComponent<ActiveObjectManager>();
+        activeGameObject = _script.activeGameObject;
+        _lights = activeGameObject.transform.parent.GetComponent<ActiveObjectDependancies>().lights;
+    }
 
     public void ChangeStatus()
     {
-        _script = activeGameObject.GetComponent<ActiveObjectManager>();
-        _light = _script.activeGameObject.transform.GetComponentInChildren<Light>();
 
-        _light.enabled = !_light.enabled;
+
+        if(_lights != null)
+        {
+            Debug.Log("Lights Length is ::::::::::::::::::::::::::::::::::::::::::::" + _lights.Length);
+            for (int i=0; i <_lights.Length; i++)
+            {
+                _lights[i].enabled = !_lights[i].enabled;
+                
+            }
+            
+        }
+
+        
 
     }
-
 }

@@ -7,8 +7,11 @@ public class IndicatorCanvas : MonoBehaviour
 {
     public Transform targetCamera;
 
-    [SerializeField]
+    public GameObject activeObjectManager;
+
     private GameObject _activeObject;
+    private Vector3 _activeObjectPosition;
+    private Vector3 _activeObjectScale;
 
     [SerializeField]
     private ObjectAffordances activeObjectType;
@@ -32,10 +35,20 @@ public class IndicatorCanvas : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         //Check to see if there is an active object and if there is, see what plane that object belongs to
         try
         {
-            _activeObject = GameObject.FindGameObjectsWithTag("ActiveObject")[0];
+            //_activeObject = GameObject.FindGameObjectsWithTag("ActiveObject")[0];
+            _activeObject = activeObjectManager.GetComponent<ActiveObjectManager>().activeGameObject;
+            Transform _activeObjectParent = _activeObject.transform.parent;
+            float prefabBoxColliderHeight = _activeObjectParent.GetComponent<ActiveObjectDependancies>().Prefab.GetComponent<BoxCollider>().size.y;
+            _activeObjectPosition = _activeObject.transform.position;
+            _activeObjectScale = _activeObject.transform.lossyScale;
+
+            //transform.position = new Vector3(_activeObjectPosition.x, _activeObjectPosition.y*2, _activeObjectPosition.z); 
+            //transform.position = new Vector3(_activeObjectPosition.x, prefabBoxColliderHeight, _activeObjectPosition.z); 
+
             activeObjectType = _activeObject.GetComponentInParent<ObjectAffordances>();
             activeObjectPlane = _activeObject.transform.parent.transform.parent;
             //Quaternion PlaneRotation = activeObjectPlane.rotation;///THIS DOES NOT RETURN THE ROTATION VALUES FROM INSPECTOR!!!!!
@@ -47,14 +60,15 @@ public class IndicatorCanvas : MonoBehaviour
                 floorPlane = true;
                 ceilingPlane = rightWallPlane = leftWallPlane = frontWallPlane = backWallPlane = false;
                 //Rotate the canvas content based with regard to camera position and rotation
-                
+                transform.position = new Vector3(_activeObjectPosition.x, prefabBoxColliderHeight, _activeObjectPosition.z);
+
                 RotateCanvas("floor");
             }
             else if (PlaneRotation.x == 0 && Math.Abs(PlaneRotation.z) == 180)
             {
                 ceilingPlane = true;
                 floorPlane = rightWallPlane = leftWallPlane = frontWallPlane = backWallPlane = false;
-                
+                transform.position = new Vector3(_activeObjectPosition.x, _activeObjectPosition.y-_activeObjectScale.y, _activeObjectPosition.z );
                 RotateCanvas("ceiling");
             }
             else if (PlaneRotation.z == 90)
@@ -62,24 +76,28 @@ public class IndicatorCanvas : MonoBehaviour
                 rightWallPlane = true;
                 floorPlane = ceilingPlane = leftWallPlane = frontWallPlane = backWallPlane = false;
                 RotateCanvas("rightwall");
+                transform.position = new Vector3(_activeObjectPosition.x - _activeObjectScale.y, _activeObjectPosition.y, _activeObjectPosition.z);
             }
             else if (PlaneRotation.z == -90)
             {
                 leftWallPlane = true;
                 floorPlane = ceilingPlane = rightWallPlane = frontWallPlane = backWallPlane = false;
                 RotateCanvas("leftwall");
+                transform.position = new Vector3(_activeObjectPosition.x + _activeObjectScale.y, _activeObjectPosition.y, _activeObjectPosition.z);
             }
             else if (PlaneRotation.x == -90)
             {
                 frontWallPlane = true;
                 floorPlane = ceilingPlane = rightWallPlane = leftWallPlane = backWallPlane = false;
                 RotateCanvas("frontwall");
+                transform.position = new Vector3(_activeObjectPosition.x, _activeObjectPosition.y, _activeObjectPosition.z - _activeObjectScale.y);
             }
             else if (PlaneRotation.x == 90)
             {
                 backWallPlane = true;
                 floorPlane = ceilingPlane = rightWallPlane = leftWallPlane = frontWallPlane = false;
                 RotateCanvas("backwall");
+                transform.position = new Vector3(_activeObjectPosition.x , _activeObjectPosition.y, _activeObjectPosition.z + _activeObjectScale.y);
             }
 
             
@@ -127,8 +145,8 @@ public class IndicatorCanvas : MonoBehaviour
     //This method sets the size of the Interaction indicator based on the distance from active object
     public void UpdateSize(float deltaPosition)
     {
-        float baseFontSize = 12.0f;
-        float maxFontSize = 48.0f;
+        float baseFontSize = 4.0f;
+        float maxFontSize = 24.0f;
         float changeThreshold = 3.0f;
         float stopChange = 12.0f;
 

@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class SetTransformToZero : MonoBehaviour
 {
-    GameObject _target;
+    //GameObject _target;
 
     void Update()
     {
         //Find the height of the prefab in the active object
-        _target = GameObject.FindGameObjectsWithTag("ActiveObject")[0];
+        //_target = GameObject.FindGameObjectsWithTag("ActiveObject")[0];
+
+        transform.localPosition = new Vector3(0, 0, 0);
+        /*
         float _targetHeight = _target.transform.GetChild(0).localScale.y;
 
 
@@ -23,7 +26,7 @@ public class SetTransformToZero : MonoBehaviour
             transform.localPosition = new Vector3(0, indicatorPlacement, 0);
         }
             
-
+        */
         
 
     }

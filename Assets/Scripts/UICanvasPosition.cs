@@ -11,3 +11,4 @@ public class UICanvasPosition : MonoBehaviour
         transform.localRotation = new Quaternion(0, 0, 0, 0);
     }
 }
+

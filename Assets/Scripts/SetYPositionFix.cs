@@ -14,7 +14,7 @@ public class SetYPositionFix : MonoBehaviour
         PlanePos = Plane.transform.position;
     }
 
-
+    /*
     void Update()
     {
         float x = transform.position.x;
@@ -34,4 +34,5 @@ public class SetYPositionFix : MonoBehaviour
 
         }
     }
+    */
 }

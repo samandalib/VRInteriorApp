@@ -67,17 +67,14 @@ public class DetermineInteraction : MonoBehaviour
                 case 11://rotate
                     interactionType = "Rotate";
                     UpdateInteractioIndicator(interactionType);
-                    Debug.Log("Rotation Is selected !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                     _activeGameObject.GetComponent<SetRotationFix>().enabled = false;
                     _manager.CheckForInput();
                     _doRotate.DoObjectRotate(_activeGameObject, _manager.newPosition);
                     break;
 
                 case 12://move
-                        //Debug.Log("MOVE Is selected ");
                     interactionType = "Move";
                     UpdateInteractioIndicator(interactionType);
-                    //Rig.GetComponent<Locomotion2DAxis>().controllers[0] = null;
                     _manager.CheckForInput();
                     _doMove.DoObjectMove(_activeGameObject, _manager.newPosition);
                     break;
@@ -85,9 +82,17 @@ public class DetermineInteraction : MonoBehaviour
                 case 13://material
                     interactionType = "Material";
                     UpdateInteractioIndicator(interactionType);
-                    Debug.Log("MATERIAL Is selected !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                     break;
 
+                case 14://Light
+                    interactionType = "Light On/Off";
+                    UpdateInteractioIndicator(interactionType);
+                    break;
+
+                case 15://Info
+                    interactionType = "Object Info";
+                    UpdateInteractioIndicator(interactionType);
+                    break;
 
             }
         }

@@ -71,8 +71,8 @@ public class ActiveObjectManager : MonoBehaviour
     void FindActiveObjectConstraints()
     {
         floorObject = activeGameObject.transform.GetComponentInParent<ObjectAffordances>().floorObject;
-        wallObject = activeGameObject.transform.GetComponentInParent<ObjectAffordances>().wallObject;
-        ceilingObject = activeGameObject.transform.GetComponentInParent<ObjectAffordances>().ceilingObject;
+        wallObject =  activeGameObject.transform.GetComponentInParent<ObjectAffordances>().wallObject;
+        ceilingObject =  activeGameObject.transform.GetComponentInParent<ObjectAffordances>().ceilingObject;
     }
 
 
