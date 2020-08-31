@@ -8,15 +8,24 @@ public class ActiveObjectDependancies : MonoBehaviour
 {
     
     public GameObject ActiveObjectManager;
+    public GameObject statusShow;
     public GameObject TargetObject;
     public GameObject Prefab;
     public Light[] lights;
 
-    private Color _baseColor;
+
+    public static Color _baseColor;
 
     private void Awake()
     {
-        _baseColor = Prefab.GetComponent<MeshRenderer>().material.color;
+        try
+        {
+            _baseColor = Prefab.GetComponent<MeshRenderer>().material.color;
+        }
+        catch
+        {
+            Debug.Log("There is no MeshRenderer available for the prefab");
+        }
     }
     
 
@@ -24,12 +33,36 @@ public class ActiveObjectDependancies : MonoBehaviour
     //Set to the original color of the prefab when hover exits the object
     public void SetToBaseColor()
     {
-        Prefab.GetComponent<MeshRenderer>().material.color = _baseColor;
+        try
+        {
+            Prefab.GetComponent<MeshRenderer>().material.color = _baseColor;
+        }
+        catch
+        {
+            Debug.Log("There is no MeshRenderer available for the prefab");
+        }
+
     }
 
     //Set the prefab color to yellow when hover enters the object
     public void SetToHoverColor()
     {
-        Prefab.GetComponent<MeshRenderer>().material.color = Color.yellow;
+        try
+        {
+            if (statusShow.activeInHierarchy)
+            {
+                Prefab.GetComponent<MeshRenderer>().material.color = _baseColor;
+            }
+            else
+            {
+                Prefab.GetComponent<MeshRenderer>().material.color = Color.yellow;
+            }
+            
+        }
+        catch
+        {
+            Debug.Log("There is no MeshRenderer available for the prefab");
+        }
+
     }
 }

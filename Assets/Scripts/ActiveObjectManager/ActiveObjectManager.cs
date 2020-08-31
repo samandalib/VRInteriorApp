@@ -23,6 +23,7 @@ public class ActiveObjectManager : MonoBehaviour
 
     GameObject[] activeGameObjects;
     public GameObject activeGameObject;
+    public Color objectBaseColor;
 
     public GameObject interactionIndicatorCanvas;
 
@@ -60,7 +61,7 @@ public class ActiveObjectManager : MonoBehaviour
 
             //Check to see if the active object is on wall/floor/ceiling
             FindActiveObjectConstraints();
-
+            GetBaseColor();
         }
         catch
         {
@@ -73,6 +74,18 @@ public class ActiveObjectManager : MonoBehaviour
         floorObject = activeGameObject.transform.GetComponentInParent<ObjectAffordances>().floorObject;
         wallObject =  activeGameObject.transform.GetComponentInParent<ObjectAffordances>().wallObject;
         ceilingObject =  activeGameObject.transform.GetComponentInParent<ObjectAffordances>().ceilingObject;
+    }
+
+    void GetBaseColor()
+    {
+        try
+        {
+            objectBaseColor = activeGameObject.transform.parent.GetComponent<ActiveObjectDependancies>().Prefab.GetComponent<MeshRenderer>().material.color;
+        }
+        catch
+        {
+            Debug.Log("There is no MeshRenderer available for the prefab");
+        }
     }
 
 

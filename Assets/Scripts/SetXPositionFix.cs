@@ -26,20 +26,22 @@ public class SetXPositionFix : MonoBehaviour
         float y = transform.position.y;
         float z = transform.position.z;
 
-        var xAdj = transform.localScale.x / 2;//Need this to adjust the position of the target
+        //var xAdj = transform.localScale.x / 2;//Need this to adjust the position of the target
 
         if (PlanePos.x>0)//If the Plane is located on the right (positive X) side of the environment
         {
             rightWall = true;
             leftWall = false;
-            transform.position = new Vector3(x - xAdj, y, z);
+            //transform.position = new Vector3(x - xAdj, y, z);
+            transform.position = new Vector3(x, y, z);
 
         }
         else if (PlanePos.x<0)//If the Plane is located on the left (negative X) side of the environment
         {
             leftWall = true;
             rightWall = false;
-            transform.position = new Vector3(x + xAdj, y, z);
+            //transform.position = new Vector3(x + xAdj, y, z);
+            transform.position = new Vector3(x, y, z);
 
         }
     }

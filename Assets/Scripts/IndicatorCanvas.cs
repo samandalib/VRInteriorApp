@@ -46,13 +46,11 @@ public class IndicatorCanvas : MonoBehaviour
             _activeObjectPosition = _activeObject.transform.position;
             _activeObjectScale = _activeObject.transform.lossyScale;
 
-            //transform.position = new Vector3(_activeObjectPosition.x, _activeObjectPosition.y*2, _activeObjectPosition.z); 
-            //transform.position = new Vector3(_activeObjectPosition.x, prefabBoxColliderHeight, _activeObjectPosition.z); 
 
             activeObjectType = _activeObject.GetComponentInParent<ObjectAffordances>();
             activeObjectPlane = _activeObject.transform.parent.transform.parent;
-            //Quaternion PlaneRotation = activeObjectPlane.rotation;///THIS DOES NOT RETURN THE ROTATION VALUES FROM INSPECTOR!!!!!
 
+            //Quaternion PlaneRotation = activeObjectPlane.rotation;///THIS DOES NOT RETURN THE ROTATION VALUES FROM INSPECTOR!!!!!
             PlaneRotation = UnityEditor.TransformUtils.GetInspectorRotation(activeObjectPlane.transform);//THIS ONE DOES RETURN THE VALUES FROM INSPECTOR
 
             if (PlaneRotation.x == 0 && PlaneRotation.z == 0)
@@ -99,9 +97,6 @@ public class IndicatorCanvas : MonoBehaviour
                 RotateCanvas("backwall");
                 transform.position = new Vector3(_activeObjectPosition.x , _activeObjectPosition.y, _activeObjectPosition.z + _activeObjectScale.y);
             }
-
-            
-
         }
         catch
         {
@@ -122,7 +117,9 @@ public class IndicatorCanvas : MonoBehaviour
                 transform.Rotate(0, 180, 0);
                 break;
             case "ceiling":
-                transform.eulerAngles = new Vector3(90, 0, 0);
+                //transform.eulerAngles = new Vector3(90, 0, 0);
+                transform.LookAt(targetCamera, Vector3.down);
+                transform.Rotate(0, 180, 180);
                 break;
             case "rightwall":
                 transform.LookAt(targetCamera);

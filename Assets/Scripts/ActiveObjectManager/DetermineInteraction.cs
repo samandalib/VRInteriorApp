@@ -79,8 +79,8 @@ public class DetermineInteraction : MonoBehaviour
                     _doMove.DoObjectMove(_activeGameObject, _manager.newPosition);
                     break;
 
-                case 13://material
-                    interactionType = "Material";
+                case 13://Duplicate
+                    interactionType = "Duplicate";
                     UpdateInteractioIndicator(interactionType);
                     break;
 

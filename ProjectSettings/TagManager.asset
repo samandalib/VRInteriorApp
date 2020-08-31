@@ -21,7 +21,7 @@ TagManager:
   - Interactable
   - Rotatable
   - Movable
-  - Materialable
+  - Duplicate
   - Light
   - Information
   - 

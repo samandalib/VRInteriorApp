@@ -10,6 +10,13 @@ public class TimeSetSlider : MonoBehaviour
 {
     public float lightAngle;
     public GameObject lightSource;
+    public GameObject sceneCamera;
+
+    private Camera _camera;
+
+    private Color _baseBgColor;
+    private Color _backgroundColor;
+
 
 
     Vector3 lightSourceBaseAngles;
@@ -20,6 +27,8 @@ public class TimeSetSlider : MonoBehaviour
     {
         lightSourceBaseAngles = lightSource.transform.eulerAngles;
         baseIntensity = lightSource.GetComponent<Light>().intensity;
+        _camera = sceneCamera.GetComponent<Camera>();
+        _baseBgColor = _camera.backgroundColor;
     }
 
     void Update()
@@ -35,6 +44,8 @@ public class TimeSetSlider : MonoBehaviour
             lightIntensity = Mathf.Cos(Mathf.Abs(lightAngle*radian));
             lightSource.GetComponent<Light>().intensity = lightIntensity;
             lightSource.transform.eulerAngles = new Vector3(lightSourceBaseAngles.x, lightAngle, lightSourceBaseAngles.z);
+
+            _camera.backgroundColor = new Vector4(lightIntensity, lightIntensity, lightIntensity);
 
         }
         else if (lightAngle==90 || lightAngle==-90)
