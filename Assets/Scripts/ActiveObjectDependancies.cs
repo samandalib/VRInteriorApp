@@ -7,9 +7,9 @@ using UnityEngine;
 public class ActiveObjectDependancies : MonoBehaviour
 {
     
-    public GameObject ActiveObjectManager;
+    //public GameObject ActiveObjectManager;
     public GameObject statusShow;
-    public GameObject TargetObject;
+    //public GameObject TargetObject;
     public GameObject Prefab;
     public Light[] lights;
 

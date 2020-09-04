@@ -16,6 +16,7 @@ public class ActiveObjectManager : MonoBehaviour
 
 
     //The Vector2 variable out of the 2DAxis input
+    [HideInInspector]
     public Vector2 newPosition; 
 
     //The controller that its 2DAxis will be used for interactions
@@ -23,13 +24,11 @@ public class ActiveObjectManager : MonoBehaviour
 
     GameObject[] activeGameObjects;
     public GameObject activeGameObject;
-    public Color objectBaseColor;
 
     public GameObject interactionIndicatorCanvas;
 
     //We will only need the X and Z value of the look direction to decide about movement adjustment
-    [SerializeField]
-    Vector2 XZLookDirection;
+    private Vector2 XZLookDirection;
 
     //get active object type
     public bool floorObject;
@@ -61,7 +60,7 @@ public class ActiveObjectManager : MonoBehaviour
 
             //Check to see if the active object is on wall/floor/ceiling
             FindActiveObjectConstraints();
-            GetBaseColor();
+
         }
         catch
         {
@@ -75,19 +74,6 @@ public class ActiveObjectManager : MonoBehaviour
         wallObject =  activeGameObject.transform.GetComponentInParent<ObjectAffordances>().wallObject;
         ceilingObject =  activeGameObject.transform.GetComponentInParent<ObjectAffordances>().ceilingObject;
     }
-
-    void GetBaseColor()
-    {
-        try
-        {
-            objectBaseColor = activeGameObject.transform.parent.GetComponent<ActiveObjectDependancies>().Prefab.GetComponent<MeshRenderer>().material.color;
-        }
-        catch
-        {
-            Debug.Log("There is no MeshRenderer available for the prefab");
-        }
-    }
-
 
     //Untag all active objects if no object is selected
     //This function will be used by StatusShow object

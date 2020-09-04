@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// This script enables a button to be able to turn on/off a light
+/// This script enables a button to be able to turn on/off light(S)
 /// </summary>
 public class lightManager : MonoBehaviour
 {
@@ -29,13 +29,12 @@ public class lightManager : MonoBehaviour
 
         if(_lights != null)
         {
-            Debug.Log("Lights Length is ::::::::::::::::::::::::::::::::::::::::::::" + _lights.Length);
             for (int i=0; i <_lights.Length; i++)
             {
                 _lights[i].enabled = !_lights[i].enabled;
                 
             }
-            
+         
         }
 
         

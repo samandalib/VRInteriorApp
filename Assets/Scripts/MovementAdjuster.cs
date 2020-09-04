@@ -20,7 +20,6 @@ public class MovementAdjuster : MonoBehaviour
     {
         //The feild of veiw for each direction is considered 90 degrees on a perfect circle
         //the threshold is sqrt(2)/2 of the lookArrow magnitude
-
         _threshold = Mathf.Sqrt(2.0f)/2;
 
     }
@@ -68,7 +67,7 @@ public class MovementAdjuster : MonoBehaviour
         }
         else
         {
-            Debug.Log("Looooooooook Noooooooooooooowhere"+lookDirection);
+            Debug.Log("Look Nowhere"+lookDirection);
         }
     }
 

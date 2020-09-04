@@ -19,7 +19,6 @@ public class DetermineInteraction : MonoBehaviour
     private GameObject _rig;
     private GameObject _activeGameObject;
 
-    //[SerializeField]
     private GameObject interactionIndicator;
     private IndicatorCanvas _interactionIndicatorCanvas;
     private Transform interactionIndicatorText;
@@ -43,7 +42,7 @@ public class DetermineInteraction : MonoBehaviour
         _activeGameObject = _manager.activeGameObject;
 
         _interactionLayer = transform.GetComponent<InteractionLayer>().interactionLayer;
-        Debug.Log("interaction Layer from DetermineInteraction Script: " + _interactionLayer);
+        //Debug.Log("interaction Layer from DetermineInteraction Script: " + _interactionLayer);
 
         DetermineInteractionType(_interactionLayer);
 
