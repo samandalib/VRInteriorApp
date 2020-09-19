@@ -11,6 +11,7 @@ public class TimeSetSlider : MonoBehaviour
     public float lightAngle;
     public GameObject lightSource;
     public GameObject sceneCamera;
+    public int lightIntensityMultiplier;
 
     private Camera _camera;
 
@@ -46,7 +47,7 @@ public class TimeSetSlider : MonoBehaviour
             lightSource.transform.eulerAngles = new Vector3(lightSourceBaseAngles.x, lightAngle, lightSourceBaseAngles.z);
 
             _camera.backgroundColor = new Vector4(lightIntensity, lightIntensity, lightIntensity);
-            RenderSettings.ambientIntensity = lightIntensity * 5 + 1;
+            RenderSettings.ambientIntensity = lightIntensity * lightIntensityMultiplier + 1;
 
         }
         else if (lightAngle==90 || lightAngle==-90)

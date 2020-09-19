@@ -66,9 +66,10 @@ public class DetermineInteraction : MonoBehaviour
                 case 11://rotate
                     interactionType = "Rotate";
                     UpdateInteractioIndicator(interactionType);
-                    _activeGameObject.GetComponent<SetRotationFix>().enabled = false;
+                    //_activeGameObject.GetComponent<SetRotationFix>().enabled = false;
                     _manager.CheckForInput();
                     _doRotate.DoObjectRotate(_activeGameObject, _manager.newPosition);
+                  
                     break;
 
                 case 12://move

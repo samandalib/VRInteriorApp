@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class IndicatorCanvas : MonoBehaviour
 {
@@ -51,7 +52,9 @@ public class IndicatorCanvas : MonoBehaviour
             activeObjectPlane = _activeObject.transform.parent.transform.parent;
 
             //Quaternion PlaneRotation = activeObjectPlane.rotation;///THIS DOES NOT RETURN THE ROTATION VALUES FROM INSPECTOR!!!!!
-            PlaneRotation = UnityEditor.TransformUtils.GetInspectorRotation(activeObjectPlane.transform);//THIS ONE DOES RETURN THE VALUES FROM INSPECTOR
+            #if UNITY_EDITOR
+                 PlaneRotation = UnityEditor.TransformUtils.GetInspectorRotation(activeObjectPlane.transform);//THIS ONE DOES RETURN THE VALUES FROM INSPECTOR
+            #endif
 
             if (PlaneRotation.x == 0 && PlaneRotation.z == 0)
             {
@@ -106,8 +109,9 @@ public class IndicatorCanvas : MonoBehaviour
 
     void RotateCanvas(string location)
     {
-        _cameraRotation = UnityEditor.TransformUtils.GetInspectorRotation(targetCamera);
-
+        #if UNITY_EDITOR
+            _cameraRotation = UnityEditor.TransformUtils.GetInspectorRotation(targetCamera);
+        #endif
         Vector3 _angles = transform.eulerAngles;
 
         switch (location)

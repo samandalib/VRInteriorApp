@@ -4,7 +4,10 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/RestaurantInterior.unity
+    guid: 8902e7ff22d0cae4f8a90277dd09d1a3
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 59e9604e7a32c0f4eab9250129f4ab52,
       type: 2}

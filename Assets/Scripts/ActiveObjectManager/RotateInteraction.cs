@@ -27,7 +27,6 @@ public class RotateInteraction : MonoBehaviour
         activeObject = _manager.activeGameObject;
     }
 
-    //To rotate the object around its own Y-Axis(Objects on the floor)
     public void DoObjectRotate(GameObject obj, Vector2 position)
     {
         try
@@ -35,7 +34,8 @@ public class RotateInteraction : MonoBehaviour
             //If the active object is a floor or ceiling object, rotate it around Y axis
             if (_manager.floorObject || _manager.ceilingObject)
             {
-                obj.transform.RotateAround(obj.transform.position, new Vector3(0, position.x, 0), 45 * Time.deltaTime);
+                //obj.transform.RotateAround(obj.transform.position, new Vector3(0, position.x, 0), 45 * Time.deltaTime);
+                obj.transform.Rotate(0, position.x*0.5f, 0, Space.World);
             }
 
             //If the active object is a wall object check to see what kind of wall it is located on 
@@ -49,12 +49,14 @@ public class RotateInteraction : MonoBehaviour
                     var positionScript = activeObject.GetComponent<SetXPositionFix>();
                     if (positionScript.rightWall)
                     {
-                        obj.transform.RotateAround(obj.transform.position, new Vector3(-position.x, 0, 0), 45 * Time.deltaTime);
+                        //obj.transform.RotateAround(obj.transform.position, new Vector3(-position.x, 0, 0), 45 * Time.deltaTime);
+                        obj.transform.Rotate(-position.x * 0.5f, 0,  0, Space.World);
 
                     }
                     else
                     {
-                        obj.transform.RotateAround(obj.transform.position, new Vector3(position.x, 0, 0), 45 * Time.deltaTime);
+                        //obj.transform.RotateAround(obj.transform.position, new Vector3(position.x, 0, 0), 45 * Time.deltaTime);
+                        obj.transform.Rotate(position.x * 0.5f, 0, 0, Space.World);
                     }
 
                 }
@@ -67,11 +69,13 @@ public class RotateInteraction : MonoBehaviour
                     var positionScript = activeObject.GetComponent<SetZPositionFix>();
                     if (positionScript.frontWall)
                     {
-                        obj.transform.RotateAround(obj.transform.position, new Vector3(0, 0, -position.x), 45 * Time.deltaTime);
+                        //obj.transform.RotateAround(obj.transform.position, new Vector3(0, 0, -position.x), 45 * Time.deltaTime);
+                        obj.transform.Rotate(0, 0, -position.x * 0.5f, Space.World);
                     }
                     else if (positionScript.backWall)
                     {
-                        obj.transform.RotateAround(obj.transform.position, new Vector3(0, 0, position.x), 45 * Time.deltaTime);
+                        //obj.transform.RotateAround(obj.transform.position, new Vector3(0, 0, position.x), 45 * Time.deltaTime);
+                        obj.transform.Rotate(0, 0, position.x * 0.5f, Space.World);
 
                     }
                 }
