@@ -17,11 +17,14 @@ public class ActiveObjectDependancies : MonoBehaviour
 
 
     public static Color _baseColor;
-    public static Material _baseMaterial;
+    //public static Material _baseMaterial;
+
+    [SerializeField]
+    private Color baseColor;
 
     private void Awake()
     {
-        /*
+        
         try
         {
             _baseColor = Prefab.GetComponent<MeshRenderer>().material.color;
@@ -30,7 +33,7 @@ public class ActiveObjectDependancies : MonoBehaviour
         {
             Debug.Log("There is no MeshRenderer/color available for the prefab");
         }
-        */
+        baseColor = _baseColor;
     }
     
 

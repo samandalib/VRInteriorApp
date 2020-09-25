@@ -25,7 +25,7 @@ public class DuplicateObject : MonoBehaviour
     void Update()
     {
         _activeGameObject = activeObjectManager.GetComponent<ActiveObjectManager>().activeGameObject;
-        /*
+        
         try
         {
             _baseColor = ActiveObjectDependancies._baseColor;
@@ -34,7 +34,7 @@ public class DuplicateObject : MonoBehaviour
         {
             Debug.Log("There is no MeshRenderer available for the prefab");
         }
-        */
+        
         _parentObject = _activeGameObject.transform.parent.gameObject;
         _grandParent = _parentObject.transform.parent;
         _parentPosition = _parentObject.transform.position;
@@ -47,6 +47,6 @@ public class DuplicateObject : MonoBehaviour
         _duplicated = Instantiate(_parentObject, _parentPosition, _parentRotation);
         _duplicated.transform.SetParent(_grandParent);
         activeObjectManager.GetComponent<ActiveObjectManager>().activeGameObject = _duplicated.transform.GetChild(0).gameObject;
-        _activeGameObject.transform.parent.GetComponent<ActiveObjectDependancies>().Prefab.GetComponent<MeshRenderer>().material.color = _baseColor;
+        //_activeGameObject.transform.parent.GetComponent<ActiveObjectDependancies>().Prefab.GetComponent<MeshRenderer>().material.color = _baseColor;
     }
 }
